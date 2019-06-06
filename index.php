@@ -76,7 +76,7 @@ $authorize_url = 'https://appleid.apple.com/auth/authorize'.'?'.http_build_query
   'client_id' => $client_id,
   'redirect_uri' => $redirect_uri,
   'state' => $_SESSION['state'],
-  'scope' => 'openid email', // This doesn't seem to be required
+  // Unclear why Apple does not require "openid" scope here
 ]);
 
 
