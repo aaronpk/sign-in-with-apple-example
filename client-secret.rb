@@ -4,6 +4,10 @@ require 'jwt'
 
 ecdsa_key = OpenSSL::PKey::EC.new IO.read 'key.txt'
 
+headers = {
+  'kid' => ''                           # Find the 10-char Key ID value from the portal
+}
+
 claims = {
   'iss' => '',                          # Your 10-character Team ID
   'iat' => Time.now.to_i,
@@ -12,6 +16,6 @@ claims = {
   'sub' => '',                          # Your Services ID, e.g. com.aaronparecki.services
 }
 
-token = JWT.encode claims, ecdsa_key, 'ES256'
+token = JWT.encode claims, ecdsa_key, 'ES256', headers
 
 puts token

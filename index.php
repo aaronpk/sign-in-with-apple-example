@@ -1,7 +1,10 @@
 <?php
 session_start();
 
-// READ THE APPLE DOCS TO GET STARTED!
+// Read this blog post for a full walkthrough of this code
+// https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple
+
+// Apple's docs are here but are incomplete and incorrect in some places
 // https://developer.apple.com/sign-in-with-apple/get-started/
 
 
@@ -13,7 +16,6 @@ $client_id = '';
 // https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens#3262048
 
 // You can generate the secret from the Ruby code in this repository
-
 $client_secret = '';
 
 // Redirect URLs must be registered with Apple. You can register up to 10.
@@ -76,7 +78,7 @@ $authorize_url = 'https://appleid.apple.com/auth/authorize'.'?'.http_build_query
   'client_id' => $client_id,
   'redirect_uri' => $redirect_uri,
   'state' => $_SESSION['state'],
-  // Unclear why Apple does not require "openid" scope here
+  'scope' => 'name email',
 ]);
 
 
