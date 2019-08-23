@@ -21,19 +21,19 @@ $client_secret = '';
 // Redirect URLs must be registered with Apple. You can register up to 10.
 // Apple will throw an error with IP address URLs on the authorization screen,
 // and will not let you add localhost in the developer portal.
-$redirect_uri = 'https://example.com/';
+$redirect_uri = 'https://example-app.com/redirect';
 
 
 
 
-if(isset($_GET['code'])) {
+if(isset($_POST['code'])) {
 
-  if($_SESSION['state'] != $_GET['state']) {
+  if($_SESSION['state'] != $_POST['state']) {
     die('Authorization server returned an invalid state parameter');
   }
 
-  if(isset($_GET['error'])) {
-    die('Authorization server returned an error: '.htmlspecialchars($_GET['error']));
+  if(isset($_REQUEST['error'])) {
+    die('Authorization server returned an error: '.htmlspecialchars($_REQUEST['error']));
   }
 
   // Token endpoint docs: 
@@ -41,7 +41,7 @@ if(isset($_GET['code'])) {
 
   $response = http('https://appleid.apple.com/auth/token', [
     'grant_type' => 'authorization_code',
-    'code' => $_GET['code'],
+    'code' => $_POST['code'],
     'redirect_uri' => $redirect_uri,
     'client_id' => $client_id,
     'client_secret' => $client_secret,
@@ -75,6 +75,7 @@ $_SESSION['state'] = bin2hex(random_bytes(5));
 
 $authorize_url = 'https://appleid.apple.com/auth/authorize'.'?'.http_build_query([
   'response_type' => 'code',
+  'response_mode' => 'form_post',
   'client_id' => $client_id,
   'redirect_uri' => $redirect_uri,
   'state' => $_SESSION['state'],
