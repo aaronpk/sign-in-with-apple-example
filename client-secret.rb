@@ -1,7 +1,6 @@
 require 'jwt'
 
 # Save your private key from Apple in a file called `key.txt`
-
 key_file = 'key.txt'
 
 # Your 10-character Team ID
